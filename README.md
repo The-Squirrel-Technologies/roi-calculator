@@ -1,6 +1,6 @@
 # AI Receptionist ROI Calculator
 
-[![Deploy to GitHub Pages](https://github.com/thesquirreltech/roi-calculator/actions/workflows/deploy.yml/badge.svg)](https://github.com/thesquirreltech/roi-calculator/actions)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
 [![Built by The Squirrel](https://img.shields.io/badge/Built%20by-The%20Squirrel%20Technologies-a74911)](https://thesquirrel.tech)
 
