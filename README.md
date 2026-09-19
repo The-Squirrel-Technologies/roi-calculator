@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
 [![Built by The Squirrel](https://img.shields.io/badge/Built%20by-The%20Squirrel%20Technologies-a74911)](https://thesquirrel.tech)
 
-**→ [Try the live calculator](https://thesquirreltech.github.io/roi-calculator/)**
+**→ [Try the live calculator](https://roi-calculator.thesquirrel.tech/)**
 
 A free, open-source tool that helps businesses calculate exactly how much an AI receptionist would save them — in staff hours, missed call revenue, and net annual ROI. Built and maintained by [The Squirrel Technologies](https://thesquirrel.tech), a product and AI development studio based in Bengaluru.
 
