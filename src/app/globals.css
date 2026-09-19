@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@300;400;500;600;700&family=Phudu:wght@500;600;700;800;900&display=swap');
-
 :root {
-  --font-primary: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-accent: 'Phudu', cursive, sans-serif;
+  --font-primary: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  --font-accent: var(--font-jakarta), system-ui, sans-serif;
 
   /* The Squirrel Brand Colors */
   --color-brand: #a74911;
@@ -242,21 +240,22 @@ input[type="range"]::-moz-range-thumb {
   cursor: grab;
 }
 
-/* Print Styles for PDF Generation */
+/* Calculator fields */
+.calc-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
+@media (min-width: 960px) { .calc-grid { grid-template-columns: 1.1fr 0.9fr; } }
+.field-label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.875rem; font-weight: 700; color: var(--color-dark); }
+.field-box { display: flex; align-items: center; gap: 0.25rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.25rem 0.6rem; background: var(--color-bg-surface); }
+.field-box input { width: 4.5rem; border: none; background: transparent; font-weight: 800; font-size: 0.95rem; color: var(--color-dark); text-align: right; outline: none; font-family: inherit; }
+.field-box:focus-within { border-color: var(--color-brand); box-shadow: 0 0 0 3px var(--color-brand-glow); }
+.field-unit { font-size: 0.75rem; color: var(--color-muted); font-weight: 600; }
+.field-hints { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--color-muted); margin-top: 0.25rem; }
+:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+
+/* PDF / print report: only the calculation report is printed */
+.print-report { display: none; }
+@page { margin: 10mm 12mm; }
 @media print {
-  body {
-    background: #fff;
-    color: #000;
-  }
-  header, footer, .no-print, .embed-modal {
-    display: none !important;
-  }
-  .print-only {
-    display: block !important;
-  }
-  .card, .calculator-panel {
-    box-shadow: none !important;
-    border: 1px solid #ccc !important;
-    break-inside: avoid;
-  }
+  html, body { background: #fff; color: #000; }
+  .screen-only { display: none !important; }
+  .print-report { display: block; }
 }

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thesquirrel.tech/calculator/sitemap.xml
+Sitemap: https://roi-calculator.thesquirrel.tech/sitemap.xml

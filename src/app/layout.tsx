@@ -1,82 +1,55 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { generateStructuredData } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "AI Receptionist ROI & Labor Value Calculator | The Squirrel Technologies",
-  description: "Calculate exactly how many front-desk hours your business recovers and how much revenue you capture from missed calls. Free open-source tool by The Squirrel Technologies.",
-  keywords: [
-    "AI receptionist ROI calculator",
-    "AI receptionist cost",
-    "AI phone answering ROI",
-    "front desk automation calculator",
-    "The Squirrel Technologies",
-    "Ganesh Ghatti",
-    "missed call revenue calculator",
-    "voice AI customer care benchmark"
-  ],
-  authors: [{ name: "The Squirrel Technologies", url: "https://thesquirrel.tech" }],
-  creator: "The Squirrel Technologies",
-  publisher: "The Squirrel Technologies",
-  metadataBase: new URL("https://thesquirrel.tech"),
-  alternates: {
-    canonical: "/solutions/ai-receptionist-calculator/"
-  },
-  openGraph: {
-    title: "AI Receptionist ROI Calculator | The Squirrel Technologies",
-    description: "Measure staff hours saved, missed call revenue recovered, and net annual ROI with The Squirrel AI Receptionist.",
-    url: "https://thesquirrel.tech/solutions/ai-receptionist-calculator/",
-    siteName: "The Squirrel Technologies",
-    images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "The Squirrel Technologies AI Receptionist ROI Calculator"
-      }
-    ],
-    locale: "en_US",
-    type: "website"
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "AI Receptionist ROI Calculator | The Squirrel Technologies",
-    description: "Measure staff hours saved, missed call revenue recovered, and net annual ROI with The Squirrel AI Receptionist.",
-    creator: "@ganeshghatti",
-    images: ["/logo.png"]
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1
-    }
-  }
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  themeColor: "#a74911",
+  width: "device-width",
+  initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const structuredData = generateStructuredData();
+const title = "AI Receptionist ROI Calculator | The Squirrel Technologies";
+const description =
+  "Free calculator: estimate the staff hours an AI receptionist frees up and the revenue it recovers from missed calls, with year-1 ROI. Open source.";
 
+export const metadata: Metadata = {
+  title,
+  description,
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
+  authors: [{ name: "The Squirrel Technologies", url: "https://www.thesquirrel.tech" }],
+  creator: "The Squirrel Technologies",
+  publisher: "The Squirrel Technologies",
+  openGraph: {
+    title,
+    description,
+    url: "/",
+    siteName: "The Squirrel Technologies",
+    images: [{ url: "/logo.png", width: 500, height: 500, alt: "The Squirrel Technologies logo" }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: { card: "summary", title, description, images: ["/logo.png"] },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  icons: { icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/logo.png", type: "image/png" }], apple: "/logo.png" },
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={jakarta.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(generateStructuredData()) }} />
       </head>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

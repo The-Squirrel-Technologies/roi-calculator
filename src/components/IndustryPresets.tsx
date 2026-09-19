@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { INDUSTRY_PRESETS, IndustryPreset } from "@/lib/industryData";
+import { INDUSTRY_PRESETS, CURRENCIES, IndustryPreset, CurrencyConfig } from "@/lib/industryData";
 import { 
   Sparkles, 
   Stethoscope, 
@@ -16,9 +16,11 @@ import {
 interface IndustryPresetsProps {
   selectedId: string;
   onSelect: (preset: IndustryPreset) => void;
+  currency: CurrencyConfig;
+  onCurrency: (c: CurrencyConfig) => void;
 }
 
-export default function IndustryPresets({ selectedId, onSelect }: IndustryPresetsProps) {
+export default function IndustryPresets({ selectedId, onSelect, currency, onCurrency }: IndustryPresetsProps) {
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case "Sparkles": return <Sparkles size={16} />;
@@ -35,31 +37,28 @@ export default function IndustryPresets({ selectedId, onSelect }: IndustryPreset
 
   return (
     <div style={{ marginBottom: "2rem" }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: "0.85rem",
-        flexWrap: "wrap",
-        gap: "0.5rem"
-      }}>
-        <div>
-          <span style={{
-            fontSize: "0.75rem",
-            fontWeight: 800,
-            textTransform: "uppercase",
-            letterSpacing: "0.05em",
-            color: "var(--color-brand)"
-          }}>
-            Step 01 · Choose Industry Benchmark
-          </span>
-          <h3 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--color-dark)" }}>
-            Pre-loaded Industry Presets
-          </h3>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.85rem", flexWrap: "wrap", gap: "0.75rem" }}>
+        <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--color-dark)" }}>Pick your industry to start</h2>
+        <div role="group" aria-label="Currency" style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
+          {CURRENCIES.map((c) => {
+            const on = c.code === currency.code;
+            return (
+              <button
+                key={c.code}
+                type="button"
+                aria-pressed={on}
+                onClick={() => onCurrency(c)}
+                style={{
+                  padding: "0.3rem 0.7rem", borderRadius: "var(--radius-full)", fontSize: "0.75rem", fontWeight: on ? 700 : 500, cursor: "pointer",
+                  background: on ? "var(--color-brand)" : "#fff", color: on ? "#fff" : "var(--color-slate)",
+                  border: on ? "1px solid var(--color-brand)" : "1px solid var(--color-border)",
+                }}
+              >
+                {c.code}
+              </button>
+            );
+          })}
         </div>
-        <span style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}>
-          Or adjust sliders manually below
-        </span>
       </div>
 
       {/* Preset Pills */}
@@ -73,6 +72,8 @@ export default function IndustryPresets({ selectedId, onSelect }: IndustryPreset
           return (
             <button
               key={preset.id}
+              type="button"
+              aria-pressed={isSelected}
               onClick={() => onSelect(preset)}
               style={{
                 display: "flex",

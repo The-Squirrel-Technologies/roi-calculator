@@ -1,325 +1,68 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
-import { Mail, Phone, Calendar, Github, Instagram, Youtube, Linkedin, Heart } from "lucide-react";
+import { CALENDLY_URL, MAIN_URL, MVP_REPO_URL, MVP_SITE_URL, ORG_URL, REPO_URL, WHATSAPP_URL } from "@/lib/site";
+
+const solutions: [string, string][] = [
+  ["AI Receptionist", "/solutions/ai-receptionist"],
+  ["AI Sales Agent", "/solutions/ai-sales-agent"],
+  ["Customer Service Chatbot", "/solutions/ai-customer-service-chatbot"],
+  ["AI Workflow Automation", "/solutions/ai-workflow-automation"],
+  ["Accounts Payable Automation", "/solutions/accounts-payable-automation"],
+];
+const applications: [string, string][] = [
+  ["Salons & Spas", "ai-receptionist-for-salons-and-spas"],
+  ["Dentists", "ai-receptionist-for-dentists"],
+  ["Clinics", "ai-receptionist-for-clinics"],
+  ["HVAC Companies", "ai-receptionist-for-hvac-companies"],
+  ["Law Firms", "ai-receptionist-for-law-firms"],
+  ["Property Management", "ai-receptionist-for-property-management"],
+];
+
+const heading: React.CSSProperties = { fontSize: "0.8rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--color-dark)", marginBottom: "0.9rem" };
+const list: React.CSSProperties = { listStyle: "none", display: "flex", flexDirection: "column", gap: "0.55rem", fontSize: "0.875rem", color: "var(--color-slate)" };
 
 export default function Footer() {
   return (
-    <footer style={{
-      backgroundColor: "#ffffff",
-      borderTop: "1px solid var(--color-border)",
-      paddingTop: "4rem",
-      paddingBottom: "2.5rem"
-    }}>
+    <footer className="screen-only" style={{ background: "#fff", borderTop: "1px solid var(--color-border)", padding: "3rem 0 2rem" }}>
       <div className="container">
-        
-        {/* Main 4-column Grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: "3rem",
-          marginBottom: "3.5rem"
-        }}>
-          
-          {/* Col 1: Brand & Bio */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "2rem", marginBottom: "2rem" }}>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
-              <Image
-                src="/logo.png"
-                alt="The Squirrel Logo"
-                width={40}
-                height={40}
-                style={{ objectFit: "contain" }}
-              />
-              <span style={{
-                fontSize: "1.125rem",
-                fontWeight: 900,
-                color: "var(--color-dark)",
-                textTransform: "uppercase",
-                letterSpacing: "-0.03em"
-              }}>
-                The Squirrel
-              </span>
-            </div>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-muted)", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-              Transforming innovative ideas into high-performance digital solutions. We build production-ready AI systems, automations, and intelligent workflows that help businesses scale.
+            <a href={MAIN_URL} target="_blank" rel="noopener" style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.9rem" }}>
+              <Image src="/logo.png" alt="The Squirrel Technologies logo" width={36} height={36} style={{ objectFit: "contain" }} />
+              <span style={{ fontWeight: 900, color: "var(--color-dark)", textTransform: "uppercase" }}>The Squirrel</span>
+            </a>
+            <p style={{ fontSize: "0.85rem", color: "var(--color-muted)" }}>
+              Product engineering studio in Bengaluru building production AI systems, automations and MVPs.
             </p>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <a
-                href="https://www.instagram.com/thesquirrel.tech/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                style={{
-                  display: "inline-flex",
-                  width: "36px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                  transition: "all 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--color-brand)";
-                  e.currentTarget.style.borderColor = "var(--color-brand)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--color-muted)";
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
-              >
-                <Instagram size={17} />
-              </a>
-
-              <a
-                href="https://youtube.com/@ganeshghatti"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                style={{
-                  display: "inline-flex",
-                  width: "36px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                  transition: "all 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--color-brand)";
-                  e.currentTarget.style.borderColor = "var(--color-brand)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--color-muted)";
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
-              >
-                <Youtube size={17} />
-              </a>
-
-              <a
-                href="https://github.com/thesquirreltech"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                style={{
-                  display: "inline-flex",
-                  width: "36px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                  transition: "all 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--color-brand)";
-                  e.currentTarget.style.borderColor = "var(--color-brand)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--color-muted)";
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
-              >
-                <Github size={17} />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/company/the-squirrel-technologies"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                style={{
-                  display: "inline-flex",
-                  width: "36px",
-                  height: "36px",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  border: "1px solid var(--color-border)",
-                  color: "var(--color-muted)",
-                  transition: "all 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--color-brand)";
-                  e.currentTarget.style.borderColor = "var(--color-brand)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--color-muted)";
-                  e.currentTarget.style.borderColor = "var(--color-border)";
-                }}
-              >
-                <Linkedin size={17} />
-              </a>
-            </div>
           </div>
-
-          {/* Col 2: Solutions */}
           <div>
-            <h4 style={{
-              fontSize: "0.875rem",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              color: "var(--color-dark)",
-              marginBottom: "1.25rem"
-            }}>
-              AI Solutions
-            </h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.875rem", color: "var(--color-slate)" }}>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/ai-receptionist" style={{ fontWeight: 600, color: "var(--color-brand)" }}>
-                  AI Receptionist
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/ai-sales-agent">
-                  AI Sales Agent
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/ai-customer-service-chatbot">
-                  Customer Service Chatbot
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/ai-workflow-automation">
-                  AI Workflow Automation
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/accounts-payable-automation">
-                  Accounts Payable Automation
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/solutions/ai-recruiting-software">
-                  AI Interview Platform
-                </a>
-              </li>
+            <h3 style={heading}>AI solutions</h3>
+            <ul style={list}>
+              {solutions.map(([n, p]) => (<li key={p}><a href={`${MAIN_URL}${p}`} target="_blank" rel="noopener">{n}</a></li>))}
             </ul>
           </div>
-
-          {/* Col 3: Applications */}
           <div>
-            <h4 style={{
-              fontSize: "0.875rem",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              color: "var(--color-dark)",
-              marginBottom: "1.25rem"
-            }}>
-              Applications
-            </h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem", fontSize: "0.875rem", color: "var(--color-slate)" }}>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-salons-and-spas">
-                  AI Receptionist for Salons & Spas
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-dentists">
-                  AI Receptionist for Dentists
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-clinics">
-                  AI Receptionist for Clinics
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-hvac-companies">
-                  AI Receptionist for HVAC Companies
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-law-firms">
-                  AI Receptionist for Law Firms
-                </a>
-              </li>
-              <li>
-                <a href="https://thesquirrel.tech/applications/ai-receptionist-for-property-management">
-                  AI Receptionist for Property Management
-                </a>
-              </li>
+            <h3 style={heading}>AI receptionist for</h3>
+            <ul style={list}>
+              {applications.map(([n, p]) => (<li key={p}><a href={`${MAIN_URL}/applications/${p}`} target="_blank" rel="noopener">{n}</a></li>))}
             </ul>
           </div>
-
-          {/* Col 4: Direct Contact */}
           <div>
-            <h4 style={{
-              fontSize: "0.875rem",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              color: "var(--color-dark)",
-              marginBottom: "1.25rem"
-            }}>
-              Direct Contact
-            </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", fontSize: "0.875rem", color: "var(--color-slate)" }}>
-              <div>
-                <span style={{ fontSize: "0.75rem", textTransform: "uppercase", color: "var(--color-muted)", fontWeight: 700 }}>WhatsApp</span>
-                <div>
-                  <a href="https://wa.me/919449610077" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, color: "var(--color-brand)" }}>
-                    +91 94496 10077
-                  </a>
-                </div>
-              </div>
-              <div>
-                <span style={{ fontSize: "0.75rem", textTransform: "uppercase", color: "var(--color-muted)", fontWeight: 700 }}>Email</span>
-                <div>
-                  <a href="mailto:ganesh@thesquirrel.tech" style={{ fontWeight: 700, color: "var(--color-dark)" }}>
-                    ganesh@thesquirrel.tech
-                  </a>
-                </div>
-              </div>
-              <div>
-                <a
-                  href="https://calendly.com/ganeshghatti/discovery-call"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                  style={{ fontSize: "0.8125rem", padding: "0.6rem 1.1rem", width: "100%" }}
-                >
-                  <Calendar size={15} />
-                  <span>Book Free Discovery Call</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom copyright & open source attribution */}
-        <div style={{
-          borderTop: "1px solid var(--color-border)",
-          paddingTop: "2rem",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-          fontSize: "0.8125rem",
-          color: "var(--color-muted)"
-        }}>
-          <div>
-            © {new Date().getFullYear()} <a href="https://thesquirrel.tech" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-dark)", fontWeight: 700 }}>The Squirrel Technologies</a>. All rights reserved.
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span>Built with</span>
-            <Heart size={14} color="var(--color-brand)" fill="var(--color-brand)" />
-            <span>as an Open Source Tool for growing businesses.</span>
+            <h3 style={heading}>More free tools</h3>
+            <ul style={list}>
+              <li><a href={MVP_SITE_URL} target="_blank" rel="noopener">MVP &amp; AI Cost Calculator</a></li>
+              <li><a href={REPO_URL} target="_blank" rel="noopener">ROI calculator on GitHub</a></li>
+              <li><a href={MVP_REPO_URL} target="_blank" rel="noopener">MVP calculator on GitHub</a></li>
+              <li><a href={ORG_URL} target="_blank" rel="noopener">The-Squirrel-Technologies on GitHub</a></li>
+              <li><a href={CALENDLY_URL} target="_blank" rel="noopener">Book a discovery call</a></li>
+              <li><a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp +91 94496 10077</a></li>
+            </ul>
           </div>
         </div>
-
+        <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "1.25rem", fontSize: "0.8rem", color: "var(--color-muted)" }}>
+          © {new Date().getFullYear()}{" "}
+          <a href={MAIN_URL} target="_blank" rel="noopener" style={{ fontWeight: 700, color: "var(--color-dark)" }}>The Squirrel Technologies</a>. MIT licensed.
+        </div>
       </div>
     </footer>
   );

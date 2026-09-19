@@ -1,131 +1,65 @@
 # AI Receptionist ROI Calculator
 
+Free, open-source calculator that estimates the staff hours an AI receptionist frees up, the revenue it recovers from missed calls, and the year-1 ROI. Built by [The Squirrel Technologies](https://www.thesquirrel.tech/), a product engineering studio in Bengaluru.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
-[![Built by The Squirrel](https://img.shields.io/badge/Built%20by-The%20Squirrel%20Technologies-a74911)](https://thesquirrel.tech)
+**Live calculator: <https://roi-calculator.thesquirrel.tech>**
 
-**→ [Try the live calculator](https://roi-calculator.thesquirrel.tech/)**
+## How the maths works
 
-A free, open-source tool that helps businesses calculate exactly how much an AI receptionist would save them — in staff hours, missed call revenue, and net annual ROI. Built and maintained by [The Squirrel Technologies](https://thesquirrel.tech), a product and AI development studio based in Bengaluru.
+Per month, with every input editable:
 
----
+```
+answered calls    = calls × (1 − unanswered %)
+hours freed       = answered calls × call length ÷ 60 × AI resolve %
+staff time value  = hours freed × staff cost per hour
+bookings rescued  = calls × unanswered % × booking %
+profit rescued    = bookings rescued × value per booking × gross margin %
+AI cost           = platform fee + (resolved answered calls + all missed calls) × call length × cost per minute
+net               = staff time value + profit rescued − AI cost
+year-1 ROI        = (net × 12 − setup) ÷ (AI cost × 12 + setup)
+```
 
-## What this does
+Missed calls use no staff time, so they are never counted as hours saved. Negative results are shown as negative. The maths lives in [`src/lib/calculations.ts`](./src/lib/calculations.ts) with tests in `calculations.test.ts`.
 
-Most businesses considering an AI receptionist don't have a number. They know calls get missed, they know front-desk staff time is expensive, but they've never actually modeled the math.
-
-This calculator fixes that. You enter your call volume, average hourly rate, and current missed-call rate — it outputs your monthly hours recovered, direct labor savings, missed call revenue salvage, estimated AI platform costs, and a clean net ROI with payback period in days.
-
-It runs entirely in the browser. No sign-up, no data collection, nothing sent to a server.
-
----
+Context, not inputs: McKinsey estimates generative AI could raise customer-operations productivity by 30–45% of current function costs ([source](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier)). That is a cost-productivity estimate, not a per-call resolution rate. Industry presets are planning defaults, not benchmarks.
 
 ## Features
 
-- **8 industry presets** — Salons & Spas, Dental, Medical Clinics, HVAC, Law Firms, Property Management, Veterinary, Restaurants. Each preset loads realistic benchmarks for that vertical.
-- **Multi-currency** — USD, EUR, GBP, INR, CAD, AUD. Switches instantly.
-- **Full financial model** — staff hours recovered, direct labor cost savings, missed call revenue, AI platform cost estimate, net ROI, payback period in days.
-- **Print / PDF report** — one click exports a clean stakeholder-ready summary.
-- **Embeddable widget** — any agency, tech blog, or client portal can drop in an iframe and the calculator runs inside their site with full attribution.
-- **Schema.org structured data** — `SoftwareApplication`, `FAQPage`, and `Organization` schemas baked in for SEO.
+- 8 industry presets, 6 currencies
+- One-page PDF report (Save PDF) with inputs, step-by-step working, results and sources
+- Runs entirely in the browser: no sign-up, no data collected
 
----
-
-## Embedding on your site
-
-If you run a blog, agency, or SaaS tool and want to give your audience an interactive ROI calculator, paste this wherever you want it to appear:
+## Embed it on your site
 
 ```html
-<iframe
-  src="https://thesquirreltech.github.io/roi-calculator/"
-  width="100%"
-  height="750"
-  style="border:none; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.08);"
-  title="AI Receptionist ROI Calculator by The Squirrel Technologies"
-  loading="lazy">
-</iframe>
-<p style="font-size:12px; color:#64748b; text-align:center; margin-top:8px;">
-  Powered by <a href="https://thesquirrel.tech/solutions/ai-receptionist" target="_blank" rel="noopener noreferrer" style="color:#a74911; font-weight:600;">The Squirrel Technologies — AI Receptionist</a>
-</p>
+<div data-squirrel-roi>
+  <p style="font-size:12px;color:#64748b;text-align:center;margin-top:8px">Free <a href="https://roi-calculator.thesquirrel.tech/">AI receptionist ROI calculator</a> by <a href="https://www.thesquirrel.tech/solutions/ai-receptionist">The Squirrel Technologies</a></p>
+</div>
+<script src="https://roi-calculator.thesquirrel.tech/widget.js" async></script>
 ```
 
----
+A plain iframe (`https://roi-calculator.thesquirrel.tech/embed/`) also works. Please keep the attribution link.
 
-## Running locally
+## Run locally
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server
-npm run dev
+npm run dev     # http://localhost:3000
+npm test        # calculation tests
+npm run build   # static export to ./out
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Deployment
 
-```bash
-# Build static export (what gets deployed to GitHub Pages)
-npm run build
-```
-
-Output goes to `./out`.
-
----
-
-## Deploying to GitHub Pages
-
-The workflow in `.github/workflows/deploy.yml` handles everything automatically.
-
-1. Push to `main`
-2. Go to **Settings → Pages** in your repo
-3. Set **Source** to **GitHub Actions**
-
-That's it. Every subsequent push to `main` triggers a rebuild and redeploy.
-
-If you fork this to a subpath repo (e.g. `username.github.io/roi-calculator/`), set a repository variable `NEXT_PUBLIC_BASE_PATH=/roi-calculator` so asset paths resolve correctly.
-
----
-
-## Stack
-
-- [Next.js 14](https://nextjs.org/) with `output: 'export'` for fully static output
-- TypeScript
-- Lucide React for icons
-- canvas-confetti for the ROI celebration animation
-- GitHub Actions for CI/CD → GitHub Pages
-
----
+Pushes to `main` build a static export and deploy it to GitHub Pages via [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml), served on the custom domain in `CNAME`.
 
 ## Related
 
-These are the solution and application pages on thesquirrel.tech that this calculator directly supports:
-
-- [AI Receptionist](https://thesquirrel.tech/solutions/ai-receptionist)
-- [AI Receptionist for Salons & Spas](https://thesquirrel.tech/applications/ai-receptionist-for-salons-and-spas)
-- [AI Receptionist for Dentists](https://thesquirrel.tech/applications/ai-receptionist-for-dentists)
-- [AI Receptionist for Clinics](https://thesquirrel.tech/applications/ai-receptionist-for-clinics)
-- [AI Receptionist for HVAC Companies](https://thesquirrel.tech/applications/ai-receptionist-for-hvac-companies)
-- [AI Receptionist for Law Firms](https://thesquirrel.tech/applications/ai-receptionist-for-law-firms)
-- [AI Receptionist for Property Management](https://thesquirrel.tech/applications/ai-receptionist-for-property-management)
-- [AI Receptionist for Veterinary Clinics](https://thesquirrel.tech/applications/ai-receptionist-for-veterinary-clinics)
-- [AI Receptionist for Restaurants](https://thesquirrel.tech/applications/ai-receptionist-for-restaurants)
-- [AI Sales Agent](https://thesquirrel.tech/solutions/ai-sales-agent)
-- [AI Workflow Automation](https://thesquirrel.tech/solutions/ai-workflow-automation)
-- [Custom AI Development](https://thesquirrel.tech/solutions/custom-ai-development)
-
----
-
-## Need a custom AI receptionist built?
-
-The Squirrel builds and deploys production AI receptionists and voice agents in under 15 days.
-
-- **Website:** [thesquirrel.tech](https://thesquirrel.tech)
-- **Book a call:** [calendly.com/ganeshghatti/discovery-call](https://calendly.com/ganeshghatti/discovery-call)
-- **WhatsApp:** [+91 94496 10077](https://wa.me/919449610077)
-- **Email:** [ganesh@thesquirrel.tech](mailto:ganesh@thesquirrel.tech)
-
----
+- [AI Receptionist](https://www.thesquirrel.tech/solutions/ai-receptionist) for [salons & spas](https://www.thesquirrel.tech/applications/ai-receptionist-for-salons-and-spas), [dentists](https://www.thesquirrel.tech/applications/ai-receptionist-for-dentists), [clinics](https://www.thesquirrel.tech/applications/ai-receptionist-for-clinics), [HVAC companies](https://www.thesquirrel.tech/applications/ai-receptionist-for-hvac-companies), [law firms](https://www.thesquirrel.tech/applications/ai-receptionist-for-law-firms), [property management](https://www.thesquirrel.tech/applications/ai-receptionist-for-property-management), [veterinary clinics](https://www.thesquirrel.tech/applications/ai-receptionist-for-veterinary-clinics) and [restaurants](https://www.thesquirrel.tech/applications/ai-receptionist-for-restaurants)
+- [AI sales agent](https://www.thesquirrel.tech/solutions/ai-sales-agent), [AI workflow automation](https://www.thesquirrel.tech/solutions/ai-workflow-automation), [custom AI development](https://www.thesquirrel.tech/solutions/custom-ai-development)
+- [MVP & AI Cost Calculator](https://mvp-calculator.thesquirrel.tech) ([source](https://github.com/The-Squirrel-Technologies/mvp-calculator))
+- [Book a discovery call](https://calendly.com/ganeshghatti/discovery-call) · [ganesh@thesquirrel.tech](mailto:ganesh@thesquirrel.tech)
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+[MIT](./LICENSE)

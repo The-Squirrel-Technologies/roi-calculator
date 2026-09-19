@@ -1,209 +1,77 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Copy, Check, Code2, Globe } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, Copy, Check, Code2 } from "lucide-react";
+import { RECEPTIONIST_URL, SITE_URL } from "@/lib/site";
 
 interface EmbedModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+// Both snippets keep a plain, crawlable attribution link in the host page's own HTML.
+const attribution = `<p style="font-size:12px;color:#64748b;text-align:center;margin-top:8px">Free <a href="${SITE_URL}/">AI receptionist ROI calculator</a> by <a href="${RECEPTIONIST_URL}">The Squirrel Technologies</a></p>`;
+
+const iframeCode = `<iframe src="${SITE_URL}/embed/" width="100%" height="1100" style="border:0;border-radius:16px" title="AI Receptionist ROI Calculator by The Squirrel Technologies" loading="lazy"></iframe>
+${attribution}`;
+
+const scriptCode = `<div data-squirrel-roi>${attribution}</div>
+<script src="${SITE_URL}/widget.js" async></script>`;
+
 export default function EmbedModal({ isOpen, onClose }: EmbedModalProps) {
-  const [copiedType, setCopiedType] = useState<string | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const iframeCode = `<iframe 
-  src="https://thesquirrel.tech/embed/" 
-  width="100%" 
-  height="750" 
-  style="border:none; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.08);" 
-  title="AI Receptionist ROI Calculator by The Squirrel Technologies"
-  loading="lazy">
-</iframe>
-<p style="font-size:12px; color:#64748b; text-align:center; margin-top:8px;">
-  Powered by <a href="https://thesquirrel.tech/solutions/ai-receptionist" target="_blank" rel="noopener noreferrer" style="color:#a74911; font-weight:600;">The Squirrel Technologies AI Receptionist</a>
-</p>`;
-
-  const scriptCode = `<div id="squirrel-ai-calculator"></div>
-<script 
-  src="https://thesquirrel.tech/embed/widget.js" 
-  async 
-  data-target="#squirrel-ai-calculator">
-</script>`;
-
-  const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedType(type);
-    setTimeout(() => setCopiedType(null), 2500);
+  const copy = async (text: string, id: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(id);
+      setTimeout(() => setCopied(null), 2500);
+    } catch {
+      window.prompt("Copy the embed code:", text);
+    }
   };
 
+  const block = (id: string, title: string, note: string, code: string, rows: number) => (
+    <div style={{ marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.4rem", gap: "0.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.9rem", fontWeight: 700 }}>{title}</div>
+          <div style={{ fontSize: "0.75rem", color: "var(--color-muted)" }}>{note}</div>
+        </div>
+        <button type="button" onClick={() => copy(code, id)} className="btn-secondary" style={{ fontSize: "0.78rem", padding: "0.35rem 0.75rem" }}>
+          {copied === id ? <Check size={14} color="var(--color-success)" /> : <Copy size={14} />}
+          <span>{copied === id ? "Copied" : "Copy"}</span>
+        </button>
+      </div>
+      <textarea readOnly value={code} rows={rows} aria-label={title} onFocus={(e) => e.currentTarget.select()}
+        style={{ width: "100%", padding: "0.75rem", borderRadius: "var(--radius-md)", border: "1px solid var(--color-border)", fontFamily: "monospace", fontSize: "0.75rem", background: "#f8fafc", color: "var(--color-slate)", resize: "none" }} />
+    </div>
+  );
+
   return (
-    <div style={{
-      position: "fixed",
-      inset: 0,
-      zIndex: 100,
-      backgroundColor: "rgba(26, 31, 44, 0.65)",
-      backdropFilter: "blur(6px)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "1rem"
-    }}>
-      <div style={{
-        backgroundColor: "#ffffff",
-        borderRadius: "var(--radius-xl)",
-        maxWidth: "680px",
-        width: "100%",
-        maxHeight: "90vh",
-        overflowY: "auto",
-        boxShadow: "var(--shadow-xl)",
-        border: "1px solid var(--color-border)",
-        padding: "2rem"
-      }}>
-        
-        {/* Header */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid var(--color-border)",
-          paddingBottom: "1.25rem",
-          marginBottom: "1.5rem"
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <div style={{
-              background: "var(--color-brand-light)",
-              color: "var(--color-brand)",
-              padding: "0.5rem",
-              borderRadius: "var(--radius-sm)"
-            }}>
-              <Code2 size={22} />
-            </div>
-            <div>
-              <h3 style={{ fontSize: "1.3rem", fontWeight: 800, color: "var(--color-dark)" }}>
-                Embed This Free Calculator
-              </h3>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-muted)" }}>
-                Free open-source widget for blogs, agencies, and client sites
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            style={{
-              background: "none",
-              border: "none",
-              color: "var(--color-muted)",
-              cursor: "pointer",
-              padding: "0.5rem"
-            }}
-            aria-label="Close modal"
-          >
+    <div role="dialog" aria-modal="true" aria-label="Embed this calculator" onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(26,31,44,0.65)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ background: "#fff", borderRadius: "var(--radius-xl)", maxWidth: "680px", width: "100%", maxHeight: "90vh", overflowY: "auto", padding: "1.75rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <Code2 size={20} color="var(--color-brand)" /> Embed this calculator
+          </h2>
+          <button type="button" onClick={onClose} aria-label="Close" style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-muted)" }}>
             <X size={22} />
           </button>
         </div>
-
-        {/* Benefits banner */}
-        <div style={{
-          backgroundColor: "var(--color-bg-surface)",
-          border: "1px solid var(--color-border)",
-          borderRadius: "var(--radius-md)",
-          padding: "1rem",
-          marginBottom: "1.5rem",
-          fontSize: "0.875rem",
-          color: "var(--color-slate)",
-          display: "flex",
-          gap: "0.75rem",
-          alignItems: "center"
-        }}>
-          <Globe size={24} color="var(--color-brand)" style={{ flexShrink: 0 }} />
-          <span>
-            You are free to embed this calculator anywhere! It includes all 8 industry presets, currency conversions, and real-time financial models.
-          </span>
-        </div>
-
-        {/* Iframe Option */}
-        <div style={{ marginBottom: "1.75rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-            <label style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--color-dark)" }}>
-              Option 1: Responsive Iframe Embed (Recommended)
-            </label>
-            <button
-              onClick={() => copyToClipboard(iframeCode, "iframe")}
-              className="btn-secondary"
-              style={{ fontSize: "0.78rem", padding: "0.35rem 0.75rem" }}
-            >
-              {copiedType === "iframe" ? <Check size={14} color="var(--color-success)" /> : <Copy size={14} />}
-              <span>{copiedType === "iframe" ? "Copied!" : "Copy Code"}</span>
-            </button>
-          </div>
-          <textarea
-            readOnly
-            value={iframeCode}
-            rows={6}
-            style={{
-              width: "100%",
-              padding: "0.85rem",
-              borderRadius: "var(--radius-md)",
-              border: "1px solid var(--color-border)",
-              fontFamily: "monospace",
-              fontSize: "0.8125rem",
-              backgroundColor: "#f8fafc",
-              color: "var(--color-slate)",
-              resize: "none",
-              outline: "none"
-            }}
-          />
-        </div>
-
-        {/* Script Option */}
-        <div style={{ marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-            <label style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--color-dark)" }}>
-              Option 2: Script Container Snippet
-            </label>
-            <button
-              onClick={() => copyToClipboard(scriptCode, "script")}
-              className="btn-secondary"
-              style={{ fontSize: "0.78rem", padding: "0.35rem 0.75rem" }}
-            >
-              {copiedType === "script" ? <Check size={14} color="var(--color-success)" /> : <Copy size={14} />}
-              <span>{copiedType === "script" ? "Copied!" : "Copy Code"}</span>
-            </button>
-          </div>
-          <textarea
-            readOnly
-            value={scriptCode}
-            rows={3}
-            style={{
-              width: "100%",
-              padding: "0.85rem",
-              borderRadius: "var(--radius-md)",
-              border: "1px solid var(--color-border)",
-              fontFamily: "monospace",
-              fontSize: "0.8125rem",
-              backgroundColor: "#f8fafc",
-              color: "var(--color-slate)",
-              resize: "none",
-              outline: "none"
-            }}
-          />
-        </div>
-
-        {/* Modal Footer */}
-        <div style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "0.75rem",
-          borderTop: "1px solid var(--color-border)",
-          paddingTop: "1.25rem"
-        }}>
-          <button onClick={onClose} className="btn-secondary">
-            Done
-          </button>
-        </div>
-
+        {block("script", "Option 1: auto-resizing embed (recommended)", "Loads the calculator and resizes to fit. Keep the attribution link.", scriptCode, 4)}
+        {block("iframe", "Option 2: plain iframe", "Works anywhere that allows iframes. Adjust the height if needed.", iframeCode, 6)}
+        <p style={{ fontSize: "0.75rem", color: "var(--color-muted)" }}>Free under the MIT license. Please keep the attribution link.</p>
       </div>
     </div>
   );
