@@ -21,7 +21,7 @@ year-1 ROI        = (net × 12 − setup) ÷ (AI cost × 12 + setup)
 
 Missed calls use no staff time, so they are never counted as hours saved. Negative results are shown as negative. The maths lives in [`src/lib/calculations.ts`](./src/lib/calculations.ts) with tests in `calculations.test.ts`.
 
-Context, not inputs: McKinsey estimates generative AI could raise customer-operations productivity by 30–45% of current function costs ([source](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier)). That is a cost-productivity estimate, not a per-call resolution rate. Industry presets are planning defaults, not benchmarks.
+Benchmark: McKinsey writes that applying generative AI to customer care “could increase productivity at a value ranging from 30 to 45 percent of current function costs” and “could further reduce the volume of human-serviced contacts by up to 50 percent, depending on a company’s existing level of automation” ([The economic potential of generative AI](https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier)). The AI resolve slider tops out at 50% for that reason. Industry presets are planning defaults, not benchmarks.
 
 ## Features
 

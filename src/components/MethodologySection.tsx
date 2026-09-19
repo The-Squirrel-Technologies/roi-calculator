@@ -1,5 +1,5 @@
 import React from "react";
-import { MCKINSEY_URL, NBER_URL } from "@/lib/site";
+import { MCKINSEY_URL } from "@/lib/site";
 
 const formulas: [string, string][] = [
   ["Staff time freed", "calls × (1 − unanswered %) × call length ÷ 60 × AI resolve %  →  hours × staff cost per hour"],
@@ -24,13 +24,13 @@ export default function MethodologySection() {
             </div>
           ))}
         </dl>
-        <p style={{ fontSize: "0.85rem", color: "var(--color-muted)", marginTop: "1.25rem" }}>
-          Context, not inputs: McKinsey estimates generative AI could raise customer-operations productivity by 30–45% of current function costs (
+        <div style={{ marginTop: "1.5rem", padding: "1rem 1.25rem", borderLeft: "3px solid var(--color-brand)", background: "var(--color-brand-light)", fontSize: "0.85rem", color: "var(--color-slate)" }}>
+          <strong>Benchmark context (McKinsey).</strong> In{" "}
           <a href={MCKINSEY_URL} target="_blank" rel="noopener" style={{ color: "var(--color-brand)", textDecoration: "underline" }}>The economic potential of generative AI</a>
-          ), and a Stanford/MIT study found AI assistance raised support agents’ issues resolved per hour by 14% (
-          <a href={NBER_URL} target="_blank" rel="noopener" style={{ color: "var(--color-brand)", textDecoration: "underline" }}>Brynjolfsson, Li &amp; Raymond, NBER</a>
-          ). Neither is a per-call resolution rate, so set the AI resolve slider from your own call mix. Industry presets are planning defaults, not benchmarks.
-        </p>
+          , McKinsey writes that applying generative AI to customer care “could increase productivity at a value ranging from 30 to 45 percent of current function costs”, and that it “could further reduce the volume of human-serviced contacts by up to 50 percent, depending on a company’s existing level of automation.”
+          <br />
+          We use the second figure as the ceiling for the AI resolve slider (10–50%). The first is a cost-productivity estimate for the whole function, not an input. Industry presets are planning defaults, not benchmarks.
+        </div>
       </div>
     </section>
   );

@@ -99,7 +99,7 @@ export default function PrintReport({ results: r, inputs: i, currency, industry 
         <li>Missed calls use no staff time, so the AI resolve rate applies only to answered calls.</li>
         <li>Staff time freed is capacity; it is a cash saving only if hours or overtime are actually reduced.</li>
         <li>Rescued bookings are valued at gross profit, not revenue. AI cost and margin defaults are planning assumptions, not a quote.</li>
-        <li>Context: McKinsey estimates generative AI could raise customer-operations productivity by 30–45% of current function costs ({MCKINSEY_URL}). This is not a per-call resolution rate.</li>
+        <li>Benchmark: McKinsey says generative AI could reduce human-serviced customer contacts by up to 50 percent, depending on existing automation ({MCKINSEY_URL}). The AI resolve slider is capped at that level; higher typed values are your own assumption.</li>
         <li>Planning estimate only; actual results depend on call mix, integrations and staffing.</li>
       </ul>
 

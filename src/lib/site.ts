@@ -9,4 +9,3 @@ export const CALENDLY_URL = "https://calendly.com/ganeshghatti/discovery-call";
 export const WHATSAPP_URL = "https://wa.me/919449610077";
 export const MCKINSEY_URL =
   "https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-economic-potential-of-generative-ai-the-next-productivity-frontier";
-export const NBER_URL = "https://www.nber.org/papers/w31161";

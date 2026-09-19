@@ -153,12 +153,17 @@ export default function Calculator() {
                   min={0}
                   max={100}
                   sliderMin={10}
-                  sliderMax={80}
+                  sliderMax={50}
                   step={1}
                   unit="%"
-                  hints={["10% cautious", "your assumption", "80%"]}
+                  hints={["10% cautious", "", "50% McKinsey ceiling"]}
                   highlight
                 />
+                {automationRate > 50 && (
+                  <p style={{ fontSize: "0.75rem", color: "#b45309", marginTop: "-1rem" }}>
+                    Above McKinsey&apos;s “up to 50 percent” estimate for reducing human-serviced contacts. Treat this as an optimistic assumption.
+                  </p>
+                )}
                 <Field
                   label="Missed calls that become a booking"
                   icon={<Target size={15} color="var(--color-brand)" />}

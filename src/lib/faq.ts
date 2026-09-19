@@ -18,11 +18,11 @@ export const FAQ_ITEMS: FAQItem[] = [
       "Monthly benefit is staff time freed (hours saved × hourly cost) plus gross profit from missed calls turned into bookings. Monthly cost is the AI platform fee plus usage on every call the AI handles. Net benefit is benefit minus cost, and it can be negative. Year-1 ROI is net benefit divided by total spend, including any setup cost you enter.",
   },
   {
-    question: "Where does the 30–45% figure come from?",
+    question: "What does McKinsey say about AI in customer care?",
     answer:
-      "McKinsey estimates generative AI could raise customer-operations productivity by 30–45% of current function costs. That is a cost-productivity estimate for the whole function, not a per-call resolution rate, so treat it as context and set the containment slider from your own call mix. Source: McKinsey, The economic potential of generative AI (" +
+      "In The economic potential of generative AI, McKinsey estimates that applying generative AI to customer care functions could increase productivity at a value ranging from 30 to 45 percent of current function costs, and that it could further reduce the volume of human-serviced contacts by up to 50 percent, depending on a company's existing level of automation. This calculator uses the 50 percent figure as the ceiling for the AI resolve slider. Source: " +
       MCKINSEY_URL +
-      ").",
+      ".",
   },
   {
     question: "Can I embed this calculator on my own website?",
